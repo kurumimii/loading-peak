@@ -1,0 +1,173 @@
+-- FURINA PREMIUM: 1-MINUTE GLIDE / 9-MINUTE HYPER-STALL
+-- Features: Rapid-Fire AI "Thoughts" at 99%
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local lp = Players.LocalPlayer
+
+if game.CoreGui:FindFirstChild("FurinaFinal") then
+    game.CoreGui.FurinaFinal:Destroy()
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "FurinaFinal"
+ScreenGui.Parent = game.CoreGui
+ScreenGui.IgnoreGuiInset = true
+
+local Main = Instance.new("Frame")
+Main.Size = UDim2.new(0, 380, 0, 300)
+Main.Position = UDim2.new(0.5, -190, 0.5, -150)
+Main.BackgroundColor3 = Color3.fromRGB(8, 10, 15)
+Main.BorderSizePixel = 0
+Main.Parent = ScreenGui
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0, 15)
+Corner.Parent = Main
+
+local Stroke = Instance.new("UIStroke")
+Stroke.Thickness = 2
+Stroke.Color = Color3.fromRGB(0, 170, 255)
+Stroke.Transparency = 0.4
+Stroke.Parent = Main
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0, 50)
+Title.Position = UDim2.new(0, 0, 0, 15)
+Title.BackgroundTransparency = 1
+Title.Text = "💎 FURINA <font color='#00E6FF'>PREMIUM</font> ⚡"
+Title.Font = Enum.Font.GothamBold
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.TextSize = 24
+Title.RichText = true
+Title.Parent = Main
+
+local ProfileImg = Instance.new("ImageLabel")
+ProfileImg.Size = UDim2.new(0, 80, 0, 80)
+ProfileImg.Position = UDim2.new(0.5, -40, 0, 70)
+ProfileImg.BackgroundTransparency = 1
+ProfileImg.Image = Players:GetUserThumbnailAsync(lp.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
+ProfileImg.Parent = Main
+
+local PicCorner = Instance.new("UICorner")
+PicCorner.CornerRadius = UDim.new(1, 0)
+PicCorner.Parent = ProfileImg
+
+local PicStroke = Instance.new("UIStroke")
+PicStroke.Thickness = 2
+PicStroke.Color = Color3.fromRGB(0, 230, 255)
+PicStroke.Parent = ProfileImg
+
+local UserInfo = Instance.new("TextLabel")
+UserInfo.Size = UDim2.new(1, 0, 0, 20)
+UserInfo.Position = UDim2.new(0, 0, 0, 160)
+UserInfo.BackgroundTransparency = 1
+UserInfo.Text = "👤 " .. lp.DisplayName .. "  •  ⏳ " .. lp.AccountAge .. " Days"
+UserInfo.Font = Enum.Font.GothamMedium
+UserInfo.TextColor3 = Color3.fromRGB(160, 180, 200)
+UserInfo.TextSize = 13
+UserInfo.Parent = Main
+
+local Status = Instance.new("TextLabel")
+Status.Size = UDim2.new(1, -40, 0, 30)
+Status.Position = UDim2.new(0, 20, 0, 185)
+Status.BackgroundTransparency = 1
+Status.Text = "🛡️ Initializing systems..."
+Status.Font = Enum.Font.GothamMedium
+Status.TextColor3 = Color3.fromRGB(0, 230, 255)
+Status.TextSize = 13
+Status.TextWrapped = true
+Status.Parent = Main
+
+local BarBg = Instance.new("Frame")
+BarBg.Size = UDim2.new(0.7, 0, 0, 4)
+BarBg.Position = UDim2.new(0.15, 0, 0, 230)
+BarBg.BackgroundColor3 = Color3.fromRGB(25, 30, 40)
+BarBg.BorderSizePixel = 0
+BarBg.Parent = Main
+
+local BarFill = Instance.new("Frame")
+BarFill.Size = UDim2.new(0, 0, 1, 0)
+BarFill.BackgroundColor3 = Color3.fromRGB(0, 210, 255)
+BarFill.BorderSizePixel = 0
+BarFill.Parent = BarBg
+
+local PercentText = Instance.new("TextLabel")
+PercentText.Size = UDim2.new(1, 0, 0, 20)
+PercentText.Position = UDim2.new(0, 0, 0, 245)
+PercentText.BackgroundTransparency = 1
+PercentText.Text = "0%"
+PercentText.Font = Enum.Font.Code
+PercentText.TextColor3 = Color3.fromRGB(100, 200, 255)
+PercentText.TextSize = 12
+PercentText.Parent = Main
+
+-- MASSIVE AI THOUGHT POOL
+local thoughtPool = {
+    "🌀 Recalibrating hydro-logic...", "🛡️ Patching memory leaks...", "⚡ Boosting execution speed...",
+    "🔍 Scanning server side-channels...", "⏳ Finalizing... almost there", "💎 Verifying user license...",
+    "🌊 Smoothing frame-buffer...", "🌀 Shifting packet headers...", "📡 Syncing with Furina Cloud...",
+    "🛡️ Shielding script threads...", "⚡ Overclocking API response...", "🔍 Checking game integrity...",
+    "🌀 Almost like an AI is thinking... Finalizing.", "⏳ Defragmenting modules...", "💎 Applying luxury UI assets...",
+    "🌊 Cleaning temporary caches...", "🌀 Rotating encryption keys...", "🛡️ Analyzing Anti-Cheat behavior...",
+    "⚡ Injecting hydro-stream...", "🔍 Checking local variable space...", "⏳ Please wait, optimizing...",
+    "💎 Premium access granted...", "🌊 Watermarking session...", "🌀 Calculating bypass vectors...",
+    "🛡️ Obfuscating memory regions...", "⚡ Enhancing script performance...", "🔍 Fetching player metadata..."
+}
+
+-- Shuffle Function for No-Loop Feel
+local function shuffleThoughts()
+    local n = #thoughtPool
+    for i = n, 2, -1 do
+        local j = math.random(i)
+        thoughtPool[i], thoughtPool[j] = thoughtPool[j], thoughtPool[i]
+    end
+end
+
+-- MAIN LOGIC
+task.spawn(function()
+    -- Phase 1: Smooth 1-minute glide to 99%
+    Status.Text = "🛡️ Starting system handshake..."
+    TweenService:Create(BarFill, TweenInfo.new(60, Enum.EasingStyle.Linear), {Size = UDim2.new(0.99, 0, 1, 0)}):Play()
+    task.wait(60)
+
+    -- Phase 2: The 9-Minute Hyper-Stall (99% to 100%)
+    TweenService:Create(BarFill, TweenInfo.new(540, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+    
+    local stallTime = 540
+    local elapsed = 0
+    
+    while elapsed < stallTime do
+        shuffleThoughts() -- Randomize order every few cycles
+        for _, thought in ipairs(thoughtPool) do
+            if elapsed >= stallTime then break end
+            
+            Status.Text = "⏳ " .. thought
+            
+            -- Fast random delay (0.4 to 1.2 seconds) makes it look hyper-active
+            local waitTime = math.random(4, 12) / 10
+            elapsed = elapsed + waitTime
+            task.wait(waitTime)
+        end
+    end
+
+    Status.Text = "✅ Success. Welcome, " .. lp.Name .. "!"
+    task.wait(2)
+
+    TweenService:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 0, 0), Position = UDim2.new(0.5, 0, 0.5, 0)}):Play()
+    task.wait(0.7)
+    ScreenGui:Destroy()
+end)
+
+-- Float & Precision % Update
+RunService.RenderStepped:Connect(function()
+    if Main then
+        local float = math.sin(tick() * 1.5) * 5
+        Main.Position = UDim2.new(0.5, -190, 0.5, -150 + float)
+    end
+    if BarFill and PercentText then
+        local progress = BarFill.Size.X.Scale * 100
+        PercentText.Text = string.format("%.2f%%", progress)
+    end
+end)
