@@ -36,7 +36,7 @@ local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 50)
 Title.Position = UDim2.new(0, 0, 0, 15)
 Title.BackgroundTransparency = 1
-Title.Text = "💎 FURINA <font color='#00E6FF'>PREMIUM</font> ⚡"
+Title.Text = "💎 NAKAMA <font color='#00E6FF'>PREMIUM</font> ⚡"
 Title.Font = Enum.Font.GothamBold
 Title.TextColor3 = Color3.new(1, 1, 1)
 Title.TextSize = 24
