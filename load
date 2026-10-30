@@ -1,173 +1,695 @@
--- FURINA PREMIUM: 1-MINUTE GLIDE / 9-MINUTE HYPER-STALL
--- Features: Rapid-Fire AI "Thoughts" at 99%
-
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
-local lp = Players.LocalPlayer
-
-if game.CoreGui:FindFirstChild("FurinaFinal") then
-    game.CoreGui.FurinaFinal:Destroy()
-end
-
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "FurinaFinal"
-ScreenGui.Parent = game.CoreGui
-ScreenGui.IgnoreGuiInset = true
-
-local Main = Instance.new("Frame")
-Main.Size = UDim2.new(0, 380, 0, 300)
-Main.Position = UDim2.new(0.5, -190, 0.5, -150)
-Main.BackgroundColor3 = Color3.fromRGB(8, 10, 15)
-Main.BorderSizePixel = 0
-Main.Parent = ScreenGui
-
-local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(0, 15)
-Corner.Parent = Main
-
-local Stroke = Instance.new("UIStroke")
-Stroke.Thickness = 2
-Stroke.Color = Color3.fromRGB(0, 170, 255)
-Stroke.Transparency = 0.4
-Stroke.Parent = Main
-
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0, 50)
-Title.Position = UDim2.new(0, 0, 0, 15)
-Title.BackgroundTransparency = 1
-Title.Text = "💎 NAKAMA <font color='#00E6FF'>PREMIUM</font> ⚡"
-Title.Font = Enum.Font.GothamBold
-Title.TextColor3 = Color3.new(1, 1, 1)
-Title.TextSize = 24
-Title.RichText = true
-Title.Parent = Main
-
-local ProfileImg = Instance.new("ImageLabel")
-ProfileImg.Size = UDim2.new(0, 80, 0, 80)
-ProfileImg.Position = UDim2.new(0.5, -40, 0, 70)
-ProfileImg.BackgroundTransparency = 1
-ProfileImg.Image = Players:GetUserThumbnailAsync(lp.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
-ProfileImg.Parent = Main
-
-local PicCorner = Instance.new("UICorner")
-PicCorner.CornerRadius = UDim.new(1, 0)
-PicCorner.Parent = ProfileImg
-
-local PicStroke = Instance.new("UIStroke")
-PicStroke.Thickness = 2
-PicStroke.Color = Color3.fromRGB(0, 230, 255)
-PicStroke.Parent = ProfileImg
-
-local UserInfo = Instance.new("TextLabel")
-UserInfo.Size = UDim2.new(1, 0, 0, 20)
-UserInfo.Position = UDim2.new(0, 0, 0, 160)
-UserInfo.BackgroundTransparency = 1
-UserInfo.Text = "👤 " .. lp.DisplayName .. "  •  ⏳ " .. lp.AccountAge .. " Days"
-UserInfo.Font = Enum.Font.GothamMedium
-UserInfo.TextColor3 = Color3.fromRGB(160, 180, 200)
-UserInfo.TextSize = 13
-UserInfo.Parent = Main
-
-local Status = Instance.new("TextLabel")
-Status.Size = UDim2.new(1, -40, 0, 30)
-Status.Position = UDim2.new(0, 20, 0, 185)
-Status.BackgroundTransparency = 1
-Status.Text = "🛡️ Initializing systems..."
-Status.Font = Enum.Font.GothamMedium
-Status.TextColor3 = Color3.fromRGB(0, 230, 255)
-Status.TextSize = 13
-Status.TextWrapped = true
-Status.Parent = Main
-
-local BarBg = Instance.new("Frame")
-BarBg.Size = UDim2.new(0.7, 0, 0, 4)
-BarBg.Position = UDim2.new(0.15, 0, 0, 230)
-BarBg.BackgroundColor3 = Color3.fromRGB(25, 30, 40)
-BarBg.BorderSizePixel = 0
-BarBg.Parent = Main
-
-local BarFill = Instance.new("Frame")
-BarFill.Size = UDim2.new(0, 0, 1, 0)
-BarFill.BackgroundColor3 = Color3.fromRGB(0, 210, 255)
-BarFill.BorderSizePixel = 0
-BarFill.Parent = BarBg
-
-local PercentText = Instance.new("TextLabel")
-PercentText.Size = UDim2.new(1, 0, 0, 20)
-PercentText.Position = UDim2.new(0, 0, 0, 245)
-PercentText.BackgroundTransparency = 1
-PercentText.Text = "0%"
-PercentText.Font = Enum.Font.Code
-PercentText.TextColor3 = Color3.fromRGB(100, 200, 255)
-PercentText.TextSize = 12
-PercentText.Parent = Main
-
--- MASSIVE AI THOUGHT POOL
-local thoughtPool = {
-    "🌀 Recalibrating hydro-logic...", "🛡️ Patching memory leaks...", "⚡ Boosting execution speed...",
-    "🔍 Scanning server side-channels...", "⏳ Finalizing... almost there", "💎 Verifying user license...",
-    "🌊 Smoothing frame-buffer...", "🌀 Shifting packet headers...", "📡 Syncing with Furina Cloud...",
-    "🛡️ Shielding script threads...", "⚡ Overclocking API response...", "🔍 Checking game integrity...",
-    "🌀 Almost like an AI is thinking... Finalizing.", "⏳ Defragmenting modules...", "💎 Applying luxury UI assets...",
-    "🌊 Cleaning temporary caches...", "🌀 Rotating encryption keys...", "🛡️ Analyzing Anti-Cheat behavior...",
-    "⚡ Injecting hydro-stream...", "🔍 Checking local variable space...", "⏳ Please wait, optimizing...",
-    "💎 Premium access granted...", "🌊 Watermarking session...", "🌀 Calculating bypass vectors...",
-    "🛡️ Obfuscating memory regions...", "⚡ Enhancing script performance...", "🔍 Fetching player metadata..."
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+--=====================================================================
+-- 1. CONFIGURATION (Kurumi Mobile Edition with Full Player Info)
+--=====================================================================
+local Config = {
+    version = "2.6.7-KURUMI",
+    edition = "HALLOWEEN",
+    durations = {
+        boot = 1.8,     
+        glide = 60,     
+        stall = 540,    
+    },
+    thoughts = {
+        minDelay = 0.4,
+        maxDelay = 1.1,
+    },
+    theme = "HALLOWEEN",
+    window = {
+        width = 340,
+        height = 230,
+    },
+    demo = {
+        timeScale = 1,
+    },
 }
-
--- Shuffle Function for No-Loop Feel
-local function shuffleThoughts()
-    local n = #thoughtPool
-    for i = n, 2, -1 do
-        local j = math.random(i)
-        thoughtPool[i], thoughtPool[j] = thoughtPool[j], thoughtPool[i]
+--=====================================================================
+-- 2. PALETTES
+--=====================================================================
+local Palettes = {
+    HALLOWEEN = {
+        name = "Halloween",
+        ink = Color3.fromRGB(9, 7, 13),
+        panel = Color3.fromRGB(19, 15, 26),
+        panelSoft = Color3.fromRGB(27, 21, 35),
+        stroke = Color3.fromRGB(255, 136, 61),
+        ember = Color3.fromRGB(255, 122, 47),
+        emberSoft = Color3.fromRGB(255, 186, 126),
+        hydro = Color3.fromRGB(111, 227, 255),
+        ecto = Color3.fromRGB(182, 255, 155),
+        violet = Color3.fromRGB(167, 139, 250),
+        text = Color3.fromRGB(248, 241, 232),
+        muted = Color3.fromRGB(158, 148, 172),
+    },
+}
+local Theme = Palettes[Config.theme]
+--=====================================================================
+-- 3. THOUGHT LIBRARY
+--=====================================================================
+local Thoughts = {
+    BOOT = {
+        "🎃 Lighting the first candle...",
+        "🕯️ Opening a channel to the Kurumi core...",
+        "👻 Asking the veil very politely to move...",
+        "🌊 Priming 4,096 shadow threads...",
+        "🦇 Checking for bats in the render pipeline...",
+        "🔮 Reading the room. It is haunted.",
+        "💎 Verifying the midnight license...",
+        "🛡️ Sealing the script inside a salt circle...",
+        "📡 Handshaking with Kurumi Cloud...",
+        "🕸️ Sweeping two centuries of dust off the UI...",
+    },
+    GLIDE = {
+        "🌊 Glide engaged. Let the shadows carry you.",
+        "🛡️ Smoothing the frame buffer with a silk broom...",
+        "⚡ Overclocking the ember lanterns...",
+        "🌀 Recalibrating time-logic...",
+        "📡 Syncing packet headers with the spirit world...",
+        "🎃 Carving three more pumpkins for luck...",
+        "🔍 Scanning server side-channels...",
+        "💠 Applying luxury UI assets...",
+        "🕯️ Candle count stable: 6 / 9.",
+        "🌊 Cleaning temporary caches...",
+        "🦇 A bat crossed the packet stream. Retrying...",
+        "⚰️ Burying stale yields in the graveyard...",
+        "🌀 Rotating encryption keys...",
+        "🔍 Checking the integrity of the game client...",
+        "💎 Premium access granted. Do not tell the skeletons.",
+        "⏳ Approaching the sacred 99%...",
+    },
+    STALL = {
+        "🌀 Almost like an AI is thinking... finalizing.",
+        "🎃 Patching pumpkin firmware v6.6.6...",
+        "🦇 Counting bats in the server room: 1,024...",
+        "👻 Polishing spectral shaders to a mirror finish...",
+        "⏳ 99.42% — the last percent is a haunted house.",
+        "🕯️ Lighting the seventh candle. Patience, traveler.",
+        "🌊 Kurumi thread humming at 0.8 chilly...",
+        "🩸 Checking the mirror dimension for lost frames...",
+        "⚰️ Putting stale loops to rest. They stay buried.",
+        "🕸️ De-webbing the render pipeline...",
+        "🔮 Scrying the server for three missing frames...",
+        "🍬 Unwrapping candy-coded modules...",
+        "🛡️ Verifying license signature against the moon...",
+        "📡 Handshaking with the Kurumi Cloud again...",
+        "⚡ Compiling 4,096 shadow shaders...",
+        "🧩 Rebuilding the bone bridge, one rib at a time...",
+        "💠 Checking cache integrity. Cache is spooky but valid.",
+        "🌙 Moonlight absorption: nominal.",
+        "🔍 Auditing anti-cheat behavior, respectfully...",
+        "🎃 Pumpkin telemetry uploaded. No gourds harmed.",
+        "🌀 Defragmenting haunted modules...",
+        "👻 Ghost thread detected. Offering it a chair.",
+        "🦇 Bat-scanning memory regions for cobwebs...",
+        "⏳ 99.71% — the candles are still lit.",
+        "💎 Watermarking this session with a tiny skull...",
+        "🕯️ Ninth candle is warming up...",
+        "🌊 Streaming shadow packets uphill. Show-offs.",
+        "⚰️ Coffin cache cleared. Closed casket only.",
+        "🔍 Fetching player metadata from the crypt...",
+        "🍂 Sweeping autumn leaves out of the event queue...",
+        "📡 Listening for a heartbeat in the API...",
+        "🛡️ Shielding script threads from seasonal curses...",
+        "⚡ Boosting response time by one full pumpkin...",
+        "🌀 The last 1% is where legends wait.",
+        "👻 Invisible progress is still progress.",
+        "🎃 Kurumi is thinking. She does not need our help.",
+        "🕸️ Untangling the web of dependencies...",
+        "🌊 Shadow glide complete. Now we haunt politely.",
+        "🔮 The runes say 99.96%. The runes are dramatic.",
+        "💎 Verifying that your patience is premium-grade...",
+    },
+    COMPLETE = {
+        "🎃 Success. Welcome, the veil is open.",
+        "🕯️ All nine candles are burning.",
+        "👻 The ritual is complete. The ghosts are fans now.",
+        "💎 Kurumi core stable. Ember core fabulous.",
+        "🌊 100%. Thank you for waiting with us.",
+        "🦇 Logging out before the bats notice us.",
+    },
+}
+--=====================================================================
+-- 4. HELPERS
+--=====================================================================
+local function make(className, props, parent)
+    local instance = Instance.new(className)
+    for key, value in pairs(props or {}) do
+        instance[key] = value
+    end
+    if parent then
+        instance.Parent = parent
+    end
+    return instance
+end
+local function addCorner(instance, radius)
+    return make("UICorner", { CornerRadius = UDim.new(0, radius) }, instance)
+end
+local function addStroke(instance, color, thickness, transparency)
+    return make("UIStroke", {
+        Color = color,
+        Thickness = thickness or 1,
+        Transparency = transparency or 0,
+        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+    }, instance)
+end
+local function addGradient(instance, colors, rotation)
+    local keypoints = {}
+    for index, color in ipairs(colors) do
+        local alpha = (#colors == 1) and 0 or (index - 1) / (#colors - 1)
+        keypoints[index] = ColorSequenceKeypoint.new(alpha, color)
+    end
+    return make("UIGradient", {
+        Color = ColorSequence.new(keypoints),
+        Rotation = rotation or 0,
+    }, instance)
+end
+local function copyList(source)
+    local result = {}
+    for index, value in ipairs(source) do
+        result[index] = value
+    end
+    return result
+end
+local function shuffled(source)
+    local copy = copyList(source)
+    for index = #copy, 2, -1 do
+        local randomIndex = math.random(1, index)
+        copy[index], copy[randomIndex] = copy[randomIndex], copy[index]
+    end
+    return copy
+end
+local function thumbnailFor(player)
+    local fallback = string.format(
+        "rbxthumb://type=AvatarHeadShot&id=%d&w=420&h=420",
+        player.UserId
+    )
+    local ok, result = pcall(function()
+        return Players:GetUserThumbnailAsync(
+            player.UserId,
+            Enum.ThumbnailType.HeadShot,
+            Enum.ThumbnailSize.Size420x420
+        )
+    end)
+    if ok and type(result) == "string" then
+        return result
+    end
+    return fallback
+end
+local function createThoughtStream(pool, onThought)
+    local bag = {}
+    local last = nil
+    local stream = { delivered = 0 }
+    local function refill()
+        bag = shuffled(pool)
+        if last and #bag > 1 and bag[1] == last then
+            bag[1], bag[2] = bag[2], bag[1]
+        end
+    end
+    function stream.next()
+        if #bag == 0 then
+            refill()
+        end
+        local thought = table.remove(bag, 1)
+        last = thought
+        stream.delivered = stream.delivered + 1
+        if onThought then
+            onThought(thought)
+        end
+        return thought
+    end
+    return stream
+end
+local function safeDestroy(instance)
+    if instance and instance.Parent then
+        instance:Destroy()
     end
 end
+--=====================================================================
+-- 5. BUILD THE WINDOW
+--=====================================================================
+safeDestroy(PlayerGui:FindFirstChild("KurumiHalloween"))
+local screenGui = make("ScreenGui", {
+    Name = "KurumiHalloween",
+    ResetOnSpawn = false,
+    IgnoreGuiInset = true,
+    DisplayOrder = 99,
+    ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+}, PlayerGui)
 
--- MAIN LOGIC
-task.spawn(function()
-    -- Phase 1: Smooth 1-minute glide to 99%
-    Status.Text = "🛡️ Starting system handshake..."
-    TweenService:Create(BarFill, TweenInfo.new(60, Enum.EasingStyle.Linear), {Size = UDim2.new(0.99, 0, 1, 0)}):Play()
-    task.wait(60)
+local anchor = make("Frame", {
+    Name = "FloatAnchor",
+    AnchorPoint = Vector2.new(0.5, 0.5),
+    Position = UDim2.new(0.5, 0, 0.5, 0),
+    Size = UDim2.new(0, Config.window.width, 0, Config.window.height),
+    BackgroundTransparency = 1,
+}, screenGui)
 
-    -- Phase 2: The 9-Minute Hyper-Stall (99% to 100%)
-    TweenService:Create(BarFill, TweenInfo.new(540, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+local card = make("CanvasGroup", {
+    Name = "Card",
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundColor3 = Theme.ink,
+    BackgroundTransparency = 0.02,
+    BorderSizePixel = 0,
+    GroupTransparency = 0,
+    ClipsDescendants = false,
+}, anchor)
+addCorner(card, 18)
+local cardStroke = addStroke(card, Theme.stroke, 1.2, 0.55)
+addGradient(cardStroke, { Theme.ember, Theme.violet, Theme.hydro }, 25)
+
+local edge = make("Frame", {
+    Size = UDim2.new(1, -24, 0, 2),
+    Position = UDim2.new(0, 12, 0, 0),
+    BackgroundColor3 = Theme.ember,
+    BorderSizePixel = 0,
+}, card)
+addGradient(edge, { Theme.ember, Theme.violet, Theme.hydro }, 0)
+--=====================================================================
+-- 6. HEADER (Draggable, No Buttons)
+--=====================================================================
+local topBar = make("Frame", {
+    Name = "TopBar",
+    Size = UDim2.new(1, 0, 0, 42),
+    BackgroundTransparency = 1,
+    ZIndex = 5,
+}, card)
+
+local logo = make("Frame", {
+    Size = UDim2.new(0, 24, 0, 24),
+    Position = UDim2.new(0, 10, 0, 9),
+    BackgroundColor3 = Theme.ember,
+    BorderSizePixel = 0,
+}, topBar)
+addCorner(logo, 7)
+addGradient(logo, { Theme.ember, Theme.violet }, 35)
+addStroke(logo, Theme.emberSoft, 1, 0.6)
+make("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "🎃",
+    TextSize = 12,
+    Font = Enum.Font.GothamBold,
+}, logo)
+
+make("TextLabel", {
+    Size = UDim2.new(0, 140, 0, 14),
+    Position = UDim2.new(0, 40, 0, 8),
+    BackgroundTransparency = 1,
+    Text = "KURUMI",
+    TextColor3 = Theme.text,
+    TextSize = 11,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Left,
+}, topBar)
+
+make("TextLabel", {
+    Size = UDim2.new(0, 180, 0, 12),
+    Position = UDim2.new(0, 40, 0, 22),
+    BackgroundTransparency = 1,
+    Text = "KURUMI  ·  HALLOWEEN",
+    TextColor3 = Theme.muted,
+    TextSize = 7,
+    Font = Enum.Font.GothamMedium,
+    TextXAlignment = Enum.TextXAlignment.Left,
+}, topBar)
+
+make("Frame", {
+    Size = UDim2.new(1, -20, 0, 1),
+    Position = UDim2.new(0, 10, 0, 41),
+    BackgroundColor3 = Theme.text,
+    BackgroundTransparency = 0.9,
+    BorderSizePixel = 0,
+}, card)
+--=====================================================================
+-- 7. CONTENT (Profile, Live Badge, Thoughts, Progress)
+--=====================================================================
+local content = make("Frame", {
+    Name = "Content",
+    Size = UDim2.new(1, 0, 1, -42),
+    Position = UDim2.new(0, 0, 0, 42),
+    BackgroundTransparency = 1,
+}, card)
+
+-- Avatar Profile
+local avatarRing = make("Frame", {
+    Size = UDim2.new(0, 44, 0, 44),
+    Position = UDim2.new(0, 12, 0, 10),
+    BackgroundColor3 = Theme.ember,
+    BorderSizePixel = 0,
+}, content)
+addCorner(avatarRing, 999)
+addGradient(avatarRing, { Theme.ember, Theme.violet, Theme.hydro }, 45)
+
+local avatarInner = make("Frame", {
+    Size = UDim2.new(1, -3, 1, -3),
+    Position = UDim2.new(0, 1.5, 0, 1.5),
+    BackgroundColor3 = Theme.panel,
+    BorderSizePixel = 0,
+}, avatarRing)
+addCorner(avatarInner, 999)
+
+local avatar = make("ImageLabel", {
+    Size = UDim2.new(1, -3, 1, -3),
+    Position = UDim2.new(0, 1.5, 0, 1.5),
+    BackgroundTransparency = 1,
+    Image = thumbnailFor(LocalPlayer),
+    ScaleType = Enum.ScaleType.Crop,
+}, avatarInner)
+addCorner(avatar, 999)
+addStroke(avatar, Theme.ink, 2, 0.2)
+
+make("TextLabel", {
+    Size = UDim2.new(0, 140, 0, 18),
+    Position = UDim2.new(0, 64, 0, 11),
+    BackgroundTransparency = 1,
+    Text = LocalPlayer.DisplayName,
+    TextColor3 = Theme.text,
+    TextSize = 13,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    TextTruncate = Enum.TextTruncate.AtEnd,
+}, content)
+
+make("TextLabel", {
+    Size = UDim2.new(0, 140, 0, 14),
+    Position = UDim2.new(0, 64, 0, 27),
+    BackgroundTransparency = 1,
+    Text = "kurumi.witch",
+    TextColor3 = Theme.muted,
+    TextSize = 8,
+    Font = Enum.Font.GothamMedium,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    TextTruncate = Enum.TextTruncate.AtEnd,
+}, content)
+
+-- Live Status Badge ("LICENSED")
+local licensed = make("Frame", {
+    Size = UDim2.new(0, 78, 0, 20),
+    Position = UDim2.new(1, -90, 0, 22),
+    BackgroundColor3 = Theme.ecto,
+    BackgroundTransparency = 0.9,
+    BorderSizePixel = 0,
+}, content)
+addCorner(licensed, 999)
+addStroke(licensed, Theme.ecto, 1, 0.7)
+
+local liveDot = make("Frame", {
+    Size = UDim2.new(0, 5, 0, 5),
+    Position = UDim2.new(0, 8, 0.5, -2),
+    BackgroundColor3 = Theme.ecto,
+    BorderSizePixel = 0,
+}, licensed)
+addCorner(liveDot, 999)
+
+make("TextLabel", {
+    Size = UDim2.new(1, -15, 1, 0),
+    Position = UDim2.new(0, 15, 0, 0),
+    BackgroundTransparency = 1,
+    Text = "LICENSED",
+    TextColor3 = Theme.ecto,
+    TextSize = 7,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Left,
+}, licensed)
+
+-- Status Card (Thought Stream)
+local statusCard = make("Frame", {
+    Size = UDim2.new(1, -24, 0, 56),
+    Position = UDim2.new(0, 12, 0, 60),
+    BackgroundColor3 = Theme.panelSoft,
+    BackgroundTransparency = 0.15,
+    BorderSizePixel = 0,
+}, content)
+addCorner(statusCard, 10)
+addStroke(statusCard, Theme.stroke, 1, 0.86)
+
+make("TextLabel", {
+    Size = UDim2.new(0, 150, 0, 10),
+    Position = UDim2.new(0, 8, 0, 5),
+    BackgroundTransparency = 1,
+    Text = "T H O U G H T   S T R E A M",
+    TextColor3 = Theme.muted,
+    TextSize = 6,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Left,
+}, statusCard)
+
+local phaseIndexLabel = make("TextLabel", {
+    Size = UDim2.new(0, 130, 0, 10),
+    Position = UDim2.new(1, -138, 0, 5),
+    BackgroundTransparency = 1,
+    Text = "PHASE I  ·  SUMMONING",
+    TextColor3 = Theme.emberSoft,
+    TextSize = 6,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Right,
+}, statusCard)
+
+local statusLabel = make("TextLabel", {
+    Size = UDim2.new(1, -16, 0, 28),
+    Position = UDim2.new(0, 8, 0, 18),
+    BackgroundTransparency = 1,
+    Text = "🎃 Lighting the first candle...",
+    TextColor3 = Theme.text,
+    TextSize = 9,
+    Font = Enum.Font.GothamMedium,
+    TextWrapped = true,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    TextYAlignment = Enum.TextYAlignment.Top,
+}, statusCard)
+
+-- Progress Section
+local percentLabel = make("TextLabel", {
+    Size = UDim2.new(0, 160, 0, 24),
+    Position = UDim2.new(0, 12, 0, 124),
+    BackgroundTransparency = 1,
+    Text = "0.00%",
+    TextColor3 = Theme.ember,
+    TextSize = 20,
+    Font = Enum.Font.Code,
+    TextXAlignment = Enum.TextXAlignment.Left,
+}, content)
+addGradient(percentLabel, { Theme.ember, Theme.emberSoft, Theme.hydro }, 12)
+
+local phasePill = make("Frame", {
+    Size = UDim2.new(0, 90, 0, 18),
+    Position = UDim2.new(1, -102, 0, 127),
+    BackgroundColor3 = Theme.ember,
+    BackgroundTransparency = 0.88,
+    BorderSizePixel = 0,
+}, content)
+addCorner(phasePill, 999)
+addStroke(phasePill, Theme.ember, 1, 0.55)
+local phasePillLabel = make("TextLabel", {
+    Size = UDim2.new(1, 0, 1, 0),
+    BackgroundTransparency = 1,
+    Text = "HYDRO GLIDE",
+    TextColor3 = Theme.emberSoft,
+    TextSize = 6,
+    Font = Enum.Font.GothamBold,
+}, phasePill)
+
+-- Progress Bar Track
+local barTrack = make("Frame", {
+    Size = UDim2.new(1, -24, 0, 8),
+    Position = UDim2.new(0, 12, 0, 154),
+    BackgroundColor3 = Theme.panelSoft,
+    BorderSizePixel = 0,
+}, content)
+addCorner(barTrack, 999)
+addStroke(barTrack, Theme.text, 1, 0.88)
+local barFill = make("Frame", {
+    Size = UDim2.new(0, 0, 1, 0),
+    BackgroundColor3 = Theme.ember,
+    BorderSizePixel = 0,
+    ClipsDescendants = false,
+}, barTrack)
+addCorner(barFill, 999)
+addGradient(barFill, { Theme.ember, Theme.emberSoft, Theme.violet }, 0)
+addStroke(barFill, Theme.ember, 1, 0.4)
+
+local shimmer = make("Frame", {
+    Size = UDim2.new(0, 30, 1, 0),
+    Position = UDim2.new(0, -30, 0, 0),
+    BackgroundColor3 = Color3.new(1, 1, 1),
+    BackgroundTransparency = 0.72,
+    BorderSizePixel = 0,
+}, barFill)
+addCorner(shimmer, 999)
+
+make("TextLabel", {
+    Size = UDim2.new(0, 180, 0, 10),
+    Position = UDim2.new(0, 12, 0, 174),
+    BackgroundTransparency = 1,
+    Text = "KURUMI MOBILE  ·  " .. Config.version,
+    TextColor3 = Theme.muted,
+    TextSize = 6,
+    Font = Enum.Font.GothamBold,
+    TextXAlignment = Enum.TextXAlignment.Left,
+}, content)
+make("TextLabel", {
+    Size = UDim2.new(0, 110, 0, 10),
+    Position = UDim2.new(1, -122, 0, 174),
+    BackgroundTransparency = 1,
+    Text = "be kind to the 1%",
+    TextColor3 = Theme.muted,
+    TextSize = 6,
+    Font = Enum.Font.GothamMedium,
+    TextXAlignment = Enum.TextXAlignment.Right,
+}, content)
+
+--=====================================================================
+-- 8. RITUAL STATE & LOGIC
+--=====================================================================
+local BootDuration = math.max(0.1, Config.durations.boot)
+local GlideDuration = math.max(1, Config.durations.glide)
+local StallDuration = math.max(1, Config.durations.stall)
+local GlideStart = BootDuration
+local StallStart = GlideStart + GlideDuration
+local FinishLine = StallStart + StallDuration
+local phrases = {
+    BOOT = { index = "PHASE I  ·  SUMMONING", pill = "SUMMONING", color = Theme.emberSoft },
+    GLIDE = { index = "PHASE II  ·  HYDRO GLIDE", pill = "HYDRO GLIDE", color = Theme.hydro },
+    STALL = { index = "PHASE III  ·  HYPER-STALL", pill = "HYPER-STALL", color = Theme.violet },
+    COMPLETE = { index = "PHASE IV  ·  COMPLETE", pill = "COMPLETE", color = Theme.ecto },
+}
+local ritual = {
+    elapsed = 0,
+    paused = false,
+    done = false,
+    thoughtClock = 0,
+    nextThoughtIn = 0.35,
+}
+local connections = {}
+
+local function percentAt(elapsed)
+    if elapsed <= GlideStart then
+        return (math.clamp(elapsed / BootDuration, 0, 1)) * 2
+    elseif elapsed <= StallStart then
+        local progress = (elapsed - GlideStart) / GlideDuration
+        return 2 + math.clamp(progress, 0, 1) * 97
+    elseif elapsed < FinishLine then
+        local progress = (elapsed - StallStart) / StallDuration
+        return 99 + math.clamp(progress, 0, 1) * 0.99
+    end
+    return 100
+end
+
+local function phaseAt(elapsed)
+    if elapsed < GlideStart then
+        return "BOOT"
+    elseif elapsed < StallStart then
+        return "GLIDE"
+    elseif elapsed < FinishLine then
+        return "STALL"
+    end
+    return "COMPLETE"
+end
+
+local function setStatus(thought)
+    statusLabel.Text = thought
+    statusLabel.TextTransparency = 0.35
+    TweenService:Create(
+        statusLabel,
+        TweenInfo.new(0.22, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+        { TextTransparency = 0 }
+    ):Play()
+end
+
+--=====================================================================
+-- 9. DRAGGING SUPPORT
+--=====================================================================
+local dragging = false
+local dragStart, startPos
+
+topBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = anchor.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        anchor.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+
+--=====================================================================
+-- 10. MAIN LOOP
+--=====================================================================
+local streams = {
+    BOOT = createThoughtStream(Thoughts.BOOT, setStatus),
+    GLIDE = createThoughtStream(Thoughts.GLIDE, setStatus),
+    STALL = createThoughtStream(Thoughts.STALL, setStatus),
+    COMPLETE = createThoughtStream(Thoughts.COMPLETE, setStatus),
+}
+
+local lastTick = tick()
+local shimmerTween = TweenService:Create(
+    shimmer,
+    TweenInfo.new(1.4, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1),
+    { Position = UDim2.new(1, 0, 0, 0) }
+)
+shimmerTween:Play()
+
+table.insert(connections, RunService.Heartbeat:Connect(function(dt)
+    if ritual.paused then
+        lastTick = tick()
+        return
+    end
+
+    local now = tick()
+    local realDt = (now - lastTick) * Config.demo.timeScale
+    lastTick = now
+
+    if not ritual.done then
+        ritual.elapsed = math.min(FinishLine, ritual.elapsed + realDt)
+    end
+
+    local currentPercent = percentAt(ritual.elapsed)
+    local currentPhase = phaseAt(ritual.elapsed)
+
+    local phraseData = phrases[currentPhase] or phrases.COMPLETE
+    phaseIndexLabel.Text = phraseData.index
+    phasePillLabel.Text = phraseData.pill
+    phasePill.BackgroundColor3 = phraseData.color
     
-    local stallTime = 540
-    local elapsed = 0
-    
-    while elapsed < stallTime do
-        shuffleThoughts() -- Randomize order every few cycles
-        for _, thought in ipairs(thoughtPool) do
-            if elapsed >= stallTime then break end
-            
-            Status.Text = "⏳ " .. thought
-            
-            -- Fast random delay (0.4 to 1.2 seconds) makes it look hyper-active
-            local waitTime = math.random(4, 12) / 10
-            elapsed = elapsed + waitTime
-            task.wait(waitTime)
+    local alpha = math.clamp(currentPercent / 100, 0, 1)
+    barFill.Size = UDim2.new(alpha, 0, 1, 0)
+    percentLabel.Text = string.format("%.2f%%", currentPercent)
+
+    ritual.thoughtClock = ritual.thoughtClock + realDt
+    if ritual.thoughtClock >= ritual.nextThoughtIn and currentPhase ~= "COMPLETE" then
+        ritual.thoughtClock = 0
+        ritual.nextThoughtIn = math.random(Config.thoughts.minDelay * 10, Config.thoughts.maxDelay * 10) / 10
+        local activeStream = streams[currentPhase]
+        if activeStream then
+            activeStream.next()
         end
     end
 
-    Status.Text = "✅ Success. Welcome, " .. lp.Name .. "!"
-    task.wait(2)
-
-    TweenService:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 0, 0), Position = UDim2.new(0.5, 0, 0.5, 0)}):Play()
-    task.wait(0.7)
-    ScreenGui:Destroy()
-end)
-
--- Float & Precision % Update
-RunService.RenderStepped:Connect(function()
-    if Main then
-        local float = math.sin(tick() * 1.5) * 5
-        Main.Position = UDim2.new(0.5, -190, 0.5, -150 + float)
+    if currentPhase == "COMPLETE" and not ritual.done then
+        ritual.done = true
+        streams.COMPLETE.next()
     end
-    if BarFill and PercentText then
-        local progress = BarFill.Size.X.Scale * 100
-        PercentText.Text = string.format("%.2f%%", progress)
-    end
-end)
+end))
+
+print("🎃 Kurumi Mobile Edition with Player Info loaded successfully.")
